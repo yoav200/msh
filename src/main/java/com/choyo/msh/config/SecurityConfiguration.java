@@ -37,7 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .rememberMe();
 
         // to enable h2 db console
-        http.csrf().disable();
-        http.headers().frameOptions().disable();
+        //http.csrf().disable();
+        //http.headers().frameOptions().disable();
     }
 }

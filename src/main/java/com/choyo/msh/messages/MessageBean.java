@@ -6,6 +6,14 @@ import lombok.Data;
 @Data
 @Builder
 public class MessageBean {
-    private String state; // error, info, success
+
+    private final long timestamp = System.currentTimeMillis();
+
+    private MessageType type;
+
     private String message;
+
+    public enum MessageType {
+        SIGIN, PURCHASE, ERROR, INFO, SUCCESS
+    }
 }

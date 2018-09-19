@@ -1,29 +1,75 @@
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <div th:fragment="header-css">
-        <!-- this is header-css -->
-        <link rel="stylesheet" type="text/css"
-              href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
-
-        <link rel="stylesheet" th:href="@{/css/main.css}"
-              href="../../css/main.css" />
+        <!-- Bootstrap Core CSS -->
+        <link href="../static/vendor/bootstrap/css/bootstrap.min.css"
+              th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+        <!-- Theme CSS -->
+        <link href="../static/css/freelancer.css" th:href="@{/css/freelancer.css}" rel="stylesheet">
+        <!-- Custom Fonts -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+              integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+              crossorigin="anonymous">
     </div>
 </head>
+
 <body>
-<div th:fragment="header">
-    <!-- this is header -->
-    <nav class="navbar navbar-inverse">
+
+<div th:fragment="home-vavigation">
+    <!-- Navigation -->
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
         <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" th:href="@{/}">Spring Boot</a>
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="#page-top">Million Steps Home</a>
             </div>
-            <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a th:href="@{/}">Home</a></li>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#about">About</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#road-home">Road Home</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
+</div>
+
+<div th:fragment="terms-vavigation">
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="#page-top">Million Steps Home</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
 </div>
 
 </body>

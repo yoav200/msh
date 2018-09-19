@@ -1,5 +1,6 @@
 package com.choyo.msh.account;
 
+import org.apache.commons.lang3.StringUtils;
 import org.brickred.socialauth.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -62,7 +63,10 @@ public class AccountService implements UserDetailsService {
         return accountRepository.save(account);
     }
 
-    public void registerWithProfile(Profile profile) throws EmailAlreadyInUseException {
+    public void registerWithProfile(Profile profile) throws EmailAlreadyInUseException, MissingEmailProperty {
+        if(StringUtils.isBlank(profile.getEmail())) {
+            throw new MissingEmailProperty();
+        }
         Account account = accountRepository.findByEmail(profile.getEmail());
         // already exists - check provider
         if (account != null && !account.getProviderId().equals(profile.getProviderId())) {

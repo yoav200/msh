@@ -1,9 +1,11 @@
 package com.choyo.msh.web;
 
 import com.choyo.msh.account.AccountService;
+import com.choyo.msh.messages.MessageBean;
+import com.choyo.msh.messages.MessagesManager;
 import com.choyo.msh.socialauth.SocialAuthTemplate;
 import com.choyo.msh.socialauth.SocialauthControllerConfig;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.brickred.socialauth.AuthProvider;
 import org.brickred.socialauth.SocialAuthManager;
 import org.brickred.socialauth.util.SocialAuthUtil;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
-@Log
+@Slf4j
 @Controller
 @RequestMapping({"/socialauth"})
 public class SocialauthController {
@@ -32,10 +34,14 @@ public class SocialauthController {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private MessagesManager messagesManager;
+
+    // ===========  signin request
 
     @RequestMapping(params = {"id"})
     public String connect(@RequestParam("id") String providerId, HttpServletRequest request) throws Exception {
-        log.fine("Getting Authentication URL for :" + providerId);
+        log.debug("Getting Authentication URL for :" + providerId);
         String callbackURL = config.getBaseCallbackUrl() + request.getServletPath();
         String url = this.socialAuthManager.getAuthenticationUrl(providerId, callbackURL);
         if (callbackURL.equals(url)) {
@@ -46,79 +52,74 @@ public class SocialauthController {
         return "redirect:" + url;
     }
 
+    // ===========  approve callback
+
     @RequestMapping(params = {"oauth_token"})
-    private String oauthCallback(HttpServletRequest request) {
-        this.callback(request);
-        return "redirect:/" + config.getSuccessPageUrl();
+    public String oauthCallback(HttpServletRequest request) {
+        return this.approveCallback(request);
     }
 
     @RequestMapping(params = {"code"})
-    private String oauth2Callback(HttpServletRequest request) {
-        this.callback(request);
-        return "redirect:/" + config.getSuccessPageUrl();
-    }
-
-    @RequestMapping(params = {"wrap_verification_code"})
-    private String hotmailCallback(HttpServletRequest request) {
-        this.callback(request);
-        return "redirect:/" + config.getSuccessPageUrl();
+    public String oauth2Callback(HttpServletRequest request) {
+        return this.approveCallback(request);
     }
 
     @RequestMapping(params = {"openid.claimed_id"})
-    private String openidCallback(HttpServletRequest request) {
-        this.callback(request);
-        return "redirect:/" + config.getSuccessPageUrl();
+    public String openidCallback(HttpServletRequest request) {
+        return this.approveCallback(request);
     }
 
-    private void callback(HttpServletRequest request) {
+    // ===========  Cancel callback
+
+    @RequestMapping(params = {"error", "error_reason"})
+    public String fbCancel(@RequestParam("error_reason") String error) {
+        log.warn("Facebook send an error : " + error);
+        return cancelCallback(error);
+    }
+
+    @RequestMapping(params = {"error_code", "error_message"})
+    public String fbCancel2(@RequestParam("error_code") String errorCode, @RequestParam("error_message") String error) {
+        log.warn("Facebook send an error_code : " + errorCode + ", message: " + error);
+        return cancelCallback(error);
+    }
+
+    @RequestMapping(params = {"openid.mode=cancel"})
+    public String googleCancel(@RequestParam("openid.mode") String error) {
+        log.warn("Google send an error : " + error);
+        return cancelCallback(error);
+    }
+
+
+    private String approveCallback(HttpServletRequest request) {
         SocialAuthManager m = this.socialAuthTemplate.getSocialAuthManager();
         if (m != null) {
             try {
                 AuthProvider provider = m.connect(SocialAuthUtil.getRequestParametersMap(request));
-                log.fine("Connected Provider : " + provider.getProviderId());
+                log.debug("Connected Provider : " + provider.getProviderId());
                 accountService.registerWithProfile(provider.getUserProfile());
+                messagesManager.addMessage(MessageBean.builder()
+                        .type(MessageBean.MessageType.SIGIN)
+                        .message("Welcome to the Game!")
+                        .build());
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("error during signin", e);
+                messagesManager.addMessage(MessageBean.builder()
+                        .type(MessageBean.MessageType.ERROR)
+                        .message("Signin fail with the following error: " + e.getMessage())
+                        .build());
             }
         } else {
-            log.fine("Unable to connect provider because SocialAuthManager object is null.");
+            log.warn("Unable to connect provider because SocialAuthManager object is null.");
         }
+        return "redirect:/" + config.getSuccessPageUrl();
     }
 
-    @RequestMapping(params = {"error", "error_reason"})
-    private String fbCancel(@RequestParam("error_reason") String error) {
-        log.fine("Facebook send an error : " + error);
-        return "user_denied".equals(error) ? "redirect:/" + config.getAccessDeniedPageUrl() : "redirect:/";
-    }
 
-    @RequestMapping(params = {"error_code", "error_message"})
-    private String fbCancel2(@RequestParam("error_code") String errorCode, @RequestParam("error_message") String error) {
-        log.fine("Facebook send an error_code : " + errorCode + ", message: " + error);
+    private String cancelCallback(String error) {
+        messagesManager.addMessage(MessageBean.builder()
+                .type(MessageBean.MessageType.ERROR)
+                .message("Siginin fail: " + error)
+                .build());
         return "redirect:/" + config.getAccessDeniedPageUrl();
     }
-
-    @RequestMapping(params = {"openid.mode=cancel"})
-    private String googleCancel(@RequestParam("openid.mode") String error) {
-        log.fine("Google send an error : " + error);
-        return "cancel".equals(error) ? "redirect:/" + config.getAccessDeniedPageUrl() : "redirect:/";
-    }
-
-    @RequestMapping(params = {"wrap_error_reason"})
-    private String hotmailCancel(@RequestParam("wrap_error_reason") String error) {
-        log.fine("Hotmail send an error : " + error);
-        return "user_denied".equals(error) ? "redirect:/" + config.getAccessDeniedPageUrl() : "redirect:/";
-    }
-
-    @RequestMapping(params = {"oauth_problem"})
-    private String myspaceCancel(@RequestParam("oauth_problem") String error) {
-        log.fine("MySpace send an error : " + error);
-        return "user_refused".equals(error) ? "redirect:/" + config.getAccessDeniedPageUrl() : "redirect:/";
-    }
-
-    @RequestMapping(params = {"error"})
-    private String gitHubCancel(@RequestParam("error") String error) {
-        log.fine("Provider send an error : " + error);
-        return "access_denied".equals(error) ? "redirect:/" + config.getAccessDeniedPageUrl() : "redirect:/";
-    }
-    
 }

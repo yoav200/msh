@@ -5,20 +5,28 @@ spring:
   application:
     name: Million Steps Home
   datasource:
-    username: admin
-    password: admin
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/msh
+
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: create-drop
+    hibernate.ddl-auto: create
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
-  h2:
-    console:
-      enabled: true
-      path: /h2
+  #h2:
+   # console:
+   #   enabled: true
+   #   path: /h2
 
 msh:
   socialauth:
     base-callback-url: "http://localhost:8080"
     success-page-url: ""
-    access-denied-page-url: "/access-denied"
+    access-denied-page-url: ""
+
+    payment:
+      BT_ENVIRONMENT: sandbox
+      BT_MERCHANT_ID: YOUR_MERCHANT_ID
+      BT_PUBLIC_KEY: YOUR_PUBLIC_KEY
+      BT_PRIVATE_KEY: YOUR_PRIVATE_KEY

@@ -39,9 +39,10 @@
         }
     });
 
-
     $.get("/messages", function(data, status){
-        console.log("Data: " + data + "\nStatus: " + status);
+        //console.log("Data: " + data + "\nStatus: " + status);
+        $("#modalMessagesHolder").html(data);
+        $("#messagesModal").modal("show");
     });
 
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+>
 <head>
 
     <meta charset="utf-8">
@@ -37,7 +37,8 @@
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
             </button>
             <a class="navbar-brand" href="#page-top">Million Steps Home</a>
@@ -72,27 +73,37 @@
         </div>
         <div class="row">
             <div class="col-lg-4 col-lg-offset-2">
-                <p>Freelancer is a free bootstrap theme created by Start Bootstrap. The download includes the complete source files including HTML, CSS, and JavaScript as well as optional LESS stylesheets for easy customization.</p>
+                <p>Freelancer is a free bootstrap theme created by Start Bootstrap. The download includes the complete
+                    source files including HTML, CSS, and JavaScript as well as optional LESS stylesheets for easy
+                    customization.</p>
             </div>
             <div class="col-lg-4">
-                <p>Whether you're a student looking to showcase your work, a professional looking to attract clients, or a graphic artist looking to share your projects, this template is the perfect starting point!</p>
+                <p>Whether you're a student looking to showcase your work, a professional looking to attract clients, or
+                    a graphic artist looking to share your projects, this template is the perfect starting point!</p>
             </div>
-            <div class="col-lg-8 col-lg-offset-2 text-center">
-                <a href="#" class="btn btn-lg btn-outline" data-toggle="modal" data-target="#signInModal">
-                    <i class="fas fa-laugh"></i> Join the quest!
-                </a>
+
+            <div th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
+                <div th:case="${false}" class="col-lg-8 col-lg-offset-2 text-center">
+                    <a href="#" class="btn btn-lg btn-outline" data-toggle="modal" data-target="#signInModal">
+                        <i class="fas fa-laugh"></i> Join the quest!
+                    </a>
+                </div>
+
+                <div th:case="${true}" class="col-lg-8 col-lg-offset-2 text-center">
+                    <a href="#" class="btn btn-lg btn-outline">
+                        <i class="far fa-money-bill-alt"></i> Buy the next step
+                    </a>
+                </div>
+                <div th:case="*">Should never happen, but who knows...</div>
             </div>
+
         </div>
     </div>
 </header>
 
 <!-- Road Home section -->
 <section id="road-home" class="road-home">
-    <div class="container">
-        <div class="row">
-
-        </div>
-    </div>
+    <canvas></canvas>
 </section>
 
 <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
@@ -108,7 +119,8 @@
 
 
 <!-- Sign In Modal -->
-<div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModalTitle" aria-hidden="true">
+<div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModalTitle"
+     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -125,23 +137,8 @@
     </div>
 </div>
 
-<!-- Messages Modal -->
-<div class="modal fade" id="messagesModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">You have a new message</h4>
-            </div>
-            <div class="modal-body">
-                <div th:replace="fragments/messages :: messages"></div>
-            </div>
-            <div class="modal-footer hidden">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+
+<div id="modalMessagesHolder"></div>
 
 
 <!-- jQuery -->
@@ -150,8 +147,40 @@
 <script src="../static/vendor/bootstrap/js/bootstrap.min.js" th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
 <!-- Plugin JavaScript -->
 <script src="../static/vendor/jquery/jquery.easing.min.js" th:src="@{/vendor/jquery/jquery.easing.min.js}"></script>
+<!-- Load the required client component. -->
+<script src="https://js.braintreegateway.com/web/dropin/1.13.0/js/dropin.min.js"></script>
+
+
 <!-- Theme JavaScript -->
 <script src="../static/js/freelancer.js" th:src="@{/js/freelancer.js}"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var form = document.querySelector('#payment-form');
+    var client_token = [[${clientToken}]];
+    braintree.dropin.create({
+        authorization: client_token,
+        container: '#bt-dropin',
+        paypal: {
+            flow: 'vault'
+        }
+    }, function (createErr, instance) {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            instance.requestPaymentMethod(function (err, payload) {
+                if (err) {
+                    console.log('Error', err);
+                    return;
+                }
+                // Add the nonce to the form and submit
+                document.querySelector('#nonce').value = payload.nonce;
+                form.submit();
+            });
+        });
+    });
+    /*]]>*/
+</script>
+
 
 </body>
 

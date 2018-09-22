@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
+
+  jpa:
+    show-sql: false
+    hibernate.ddl-auto: create
+
+
+msh:
+  socialauth:
+    base-callback-url: "https://million-steps-home.herokuapp.com"
+
+  payment:
+    BT_ENVIRONMENT: sandbox
+    BT_MERCHANT_ID: YOUR_MERCHANT_ID
+    BT_PUBLIC_KEY: YOUR_PUBLIC_KEY
+    BT_PRIVATE_KEY: YOUR_PRIVATE_KEY

@@ -3,10 +3,33 @@
 </head>
 <body>
 
-<div th:fragment="messages">
 
-
+<div id="messagesModal" class="modal fade" th:unless="${#lists.isEmpty(messages)}" role="dialog" th:fragment="messageContent">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    Hi <span th:text="${messages.account.displayName}"></span>
+                    You have a new message!</h4>
+            </div>
+            <div class="modal-body">
+                <div th:each="message : ${messages.messages}">
+                    <div class="alert"
+                         th:classappend="${message.type == 'ERROR'} ? 'alert-warning' : 'alert-info'"
+                         role="alert"
+                         th:text="${message.message}">
+                        ...
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer hidden">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 </body>
 </html>

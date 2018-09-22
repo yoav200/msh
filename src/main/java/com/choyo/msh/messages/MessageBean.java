@@ -14,6 +14,6 @@ public class MessageBean {
     private String message;
 
     public enum MessageType {
-        SIGIN, PURCHASE, ERROR, INFO, SUCCESS
+        ERROR, INFO
     }
 }

@@ -98,7 +98,7 @@ public class SocialauthController {
                 log.debug("Connected Provider : " + provider.getProviderId());
                 accountService.registerWithProfile(provider.getUserProfile());
                 messagesManager.addMessage(MessageBean.builder()
-                        .type(MessageBean.MessageType.SIGIN)
+                        .type(MessageBean.MessageType.INFO)
                         .message("Welcome to the Game!")
                         .build());
             } catch (Exception e) {

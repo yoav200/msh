@@ -1,6 +1,8 @@
 package com.choyo.msh;
 
+import com.braintreegateway.BraintreeGateway;
 import com.choyo.msh.messages.MessagesManager;
+import com.choyo.msh.payment.BraintreeGatewayConfig;
 import com.choyo.msh.socialauth.SocialAuthTemplate;
 import org.brickred.socialauth.SocialAuthConfig;
 import org.brickred.socialauth.SocialAuthManager;
@@ -19,6 +21,17 @@ public class MshApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MshApplication.class, args);
+    }
+
+
+    @Bean
+    public BraintreeGateway braintreeGatewayBean(BraintreeGatewayConfig braintreeGatewayConfig) {
+        return new BraintreeGateway(
+                braintreeGatewayConfig.getEnvironment(),
+                braintreeGatewayConfig.getMerchantId(),
+                braintreeGatewayConfig.getPublicKey(),
+                braintreeGatewayConfig.getPrivateKey()
+        );
     }
 
     @Bean

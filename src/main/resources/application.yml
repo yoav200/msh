@@ -1,6 +1,15 @@
 server:
   port: 8080
 
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        security: DEBUG
+        web: WARN
+      hibernate: INFO
+
 spring:
   application:
     name: Million Steps Home
@@ -14,19 +23,14 @@ spring:
     hibernate.ddl-auto: create
     properties.hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
-  #h2:
-   # console:
-   #   enabled: true
-   #   path: /h2
-
 msh:
   socialauth:
     base-callback-url: "http://localhost:8080"
     success-page-url: ""
     access-denied-page-url: ""
 
-    payment:
-      BT_ENVIRONMENT: sandbox
-      BT_MERCHANT_ID: YOUR_MERCHANT_ID
-      BT_PUBLIC_KEY: YOUR_PUBLIC_KEY
-      BT_PRIVATE_KEY: YOUR_PRIVATE_KEY
+  payment:
+    environment: sandbox
+    merchant-id: f7t47vbjtzjzcgrt
+    public-key: w8842xsbz7jc4yv4
+    private-key: 6ab898af63214477e8d381e10804a7ac

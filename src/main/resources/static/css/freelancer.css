@@ -123,10 +123,15 @@ header .intro-text .skills {
     }
 }
 
-
 .road-home {
+    background-color: #2C3E50;
+    text-align: center;
+}
+
+.road-home  canvas {
     min-height: 800px;
-    background-color: lightgreen;
+    width: 1280px;
+    background: url("../img/grass_background.jpg")  repeat-y;
 }
 
 .navbar-custom {
@@ -221,7 +226,7 @@ header .intro-text .skills {
 }
 
 section {
-    padding: 100px 0;
+    padding: 0 0;
 }
 
 section h2 {
@@ -471,10 +476,6 @@ fieldset[disabled] .btn-success.active {
 .scroll-top .btn:focus {
     outline: none;
 }
-
-
-
-
 
 
 .fab {

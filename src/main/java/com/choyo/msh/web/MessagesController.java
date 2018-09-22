@@ -6,23 +6,28 @@ import com.choyo.msh.messages.AccountBean;
 import com.choyo.msh.messages.MessagesManager;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
-@RestController
+@Controller
 public class MessagesController {
 
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
+
+    private final MessagesManager messagesManager;
 
     @Autowired
-    private MessagesManager messagesManager;
+    public MessagesController(AccountService accountService, MessagesManager messagesManager) {
+        this.accountService = accountService;
+        this.messagesManager = messagesManager;
+    }
 
     @GetMapping("/messages")
-    public MessagesManager.AccountMessages getMessages(HttpServletRequest request) {
+    public String getMessages(HttpServletRequest request, Model model) {
         boolean someAuthority = request.isUserInRole(Account.Role.USER.getAuthority());
         Principal principal = request.getUserPrincipal();
         AccountBean accountBean = new AccountBean();
@@ -30,8 +35,11 @@ public class MessagesController {
             accountBean = new AccountBean(accountService.findAccountByEmail(principal.getName()));
         }
 
-        return MessagesManager.AccountMessages.builder()
+        MessagesManager.AccountMessages messages = MessagesManager.AccountMessages.builder()
                 .account(accountBean)
                 .messages(messagesManager.getAllMessage()).build();
+
+        model.addAttribute("messages", messages);
+        return "fragments/messages :: messageContent";
     }
 }

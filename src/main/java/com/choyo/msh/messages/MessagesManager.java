@@ -14,22 +14,13 @@ public class MessagesManager {
         messages.add(message);
     }
 
-    public MessageBean getLastMessage() {
-        MessageBean messageBean = null;
-        int size = messages.size();
-        if (size > 0) {
-            int index = size - 1;
-            messageBean = messages.get(index);
-            messages.remove(index);
-        }
-        return messageBean;
-    }
 
     public List<MessageBean> getAllMessage() {
         List<MessageBean> copy = new ArrayList<>(messages);
         messages.clear();
         return copy;
     }
+
 
     @Builder
     @Data

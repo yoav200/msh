@@ -6,14 +6,13 @@ import com.choyo.msh.messages.AccountBean;
 import com.choyo.msh.messages.MessagesManager;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
-@Controller
+@RestController
 public class MessagesController {
 
     private final AccountService accountService;
@@ -26,20 +25,34 @@ public class MessagesController {
         this.messagesManager = messagesManager;
     }
 
-    @GetMapping("/messages")
-    public String getMessages(HttpServletRequest request, Model model) {
+//    @GetMapping("/messages")
+//    public String getMessages(HttpServletRequest request, Model model) {
+//        boolean someAuthority = request.isUserInRole(Account.Role.USER.getAuthority());
+//        Principal principal = request.getUserPrincipal();
+//        AccountBean accountBean = new AccountBean();
+//        if (someAuthority && StringUtils.isNotBlank(principal.getName())) {
+//            accountBean = new AccountBean(accountService.findAccountByEmail(principal.getName()));
+//        }
+//
+//        MessagesManager.AccountMessages messages = MessagesManager.AccountMessages.builder()
+//                .account(accountBean)
+//                .messages(messagesManager.getAllMessage()).build();
+//
+//        model.addAttribute("messages", messages);
+//        return "fragments/messages :: messageContent";
+//    }
+
+    @GetMapping("/messages/")
+    public MessagesManager.AccountMessages getMessages2(HttpServletRequest request) {
         boolean someAuthority = request.isUserInRole(Account.Role.USER.getAuthority());
         Principal principal = request.getUserPrincipal();
         AccountBean accountBean = new AccountBean();
         if (someAuthority && StringUtils.isNotBlank(principal.getName())) {
             accountBean = new AccountBean(accountService.findAccountByEmail(principal.getName()));
         }
-
-        MessagesManager.AccountMessages messages = MessagesManager.AccountMessages.builder()
+        return MessagesManager.AccountMessages.builder()
                 .account(accountBean)
                 .messages(messagesManager.getAllMessage()).build();
-
-        model.addAttribute("messages", messages);
-        return "fragments/messages :: messageContent";
     }
+
 }

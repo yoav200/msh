@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<div th:fragment="payment">
+
+    <div class="modal fade" id="paymentModal" role="dialog" aria-labelledby="paymentModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">
+                        <strong>Hi, <br />Let's test a transaction</strong>
+                        <span>
+                            Make a test payment with Braintree using PayPal or a card
+                        </span>
+                    </h4>
+                </div>
+
+                <div class="modal-body text-center">
+                    <form id="payment-form" method="post" action="/checkout/">
+                        <section>
+                            <label for="amount">
+                                <span class="input-label">You will be charged a total amount of <strong>$1</strong></span>
+                            </label>
+
+                            <div class="bt-drop-in-wrapper">
+                                <div id="bt-dropin"></div>
+                            </div>
+                        </section>
+
+                        <input type="hidden" id="amount" value="1" />
+                        <input type="hidden" id="nonce" name="payment_method_nonce" />
+                        <button class="button" type="submit"><span>Test Transaction</span></button>
+                    </form>
+                </div>
+
+                <div class="modal-footer hidden">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

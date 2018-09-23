@@ -4,12 +4,30 @@
 <body>
 
 <div th:fragment="social-login">
-    <p>
-        <a href="/socialauth?id=facebook" class="fab fa-facebook"></a>
-        <a href="/socialauth?id=twitter" class="fab fa-twitter"></a>
-        <a href="/socialauth?id=instagram" class="fab fa-instagram"></a>
-        <a href="/socialauth?id=googleplus" class="fab fa-google"></a>
-    </p>
+
+    <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModalTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Sign In</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <p>
+                        <a href="/socialauth?id=facebook" class="fab fa-facebook"></a>
+                        <a href="/socialauth?id=twitter" class="fab fa-twitter"></a>
+                        <a href="/socialauth?id=instagram" class="fab fa-instagram"></a>
+                        <a href="/socialauth?id=googleplus" class="fab fa-google"></a>
+                    </p>
+                </div>
+                <div class="modal-footer hidden">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 </body>

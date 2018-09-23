@@ -14,7 +14,7 @@ msh:
     base-callback-url: "https://million-steps-home.herokuapp.com"
 
   payment:
-    BT_ENVIRONMENT: sandbox
-    BT_MERCHANT_ID: YOUR_MERCHANT_ID
-    BT_PUBLIC_KEY: YOUR_PUBLIC_KEY
-    BT_PRIVATE_KEY: YOUR_PRIVATE_KEY
+    environment: sandbox
+    merchant-id: f7t47vbjtzjzcgrt
+    public-key: w8842xsbz7jc4yv4
+    private-key: 6ab898af63214477e8d381e10804a7ac

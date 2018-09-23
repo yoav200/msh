@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 
     <meta charset="utf-8">
@@ -61,7 +59,6 @@
     </div>
 </nav>
 
-
 <!-- About Section -->
 <header class="success" id="about">
     <div class="container">
@@ -90,7 +87,7 @@
                 </div>
 
                 <div th:case="${true}" class="col-lg-8 col-lg-offset-2 text-center">
-                    <a href="#" class="btn btn-lg btn-outline">
+                    <a href="#" class="btn btn-lg btn-outline openPaymentModal">
                         <i class="far fa-money-bill-alt"></i> Buy the next step
                     </a>
                 </div>
@@ -117,18 +114,24 @@
 <!-- Footer -->
 <div th:replace="fragments/footer :: footer"></div>
 
-
 <!-- Sign In Modal -->
-<div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModalTitle"
-     aria-hidden="true">
+<div th:replace="fragments/social-login :: social-login"></div>
+
+<!-- payment Modal
+<div th:replace="fragments/payment :: payment"></div>
+-->
+
+<!-- Message Modal holder -->
+<!--<div id="modalMessagesHolder"></div>-->
+<div id="messagesModal" class="modal fade" role="dialog" aria-labelledby="messagesModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Sign In</h4>
+                <h4 class="modal-title">Title</h4>
             </div>
-            <div class="modal-body text-center">
-                <div th:replace="fragments/social-login :: social-login"></div>
+            <div class="modal-body">
+
             </div>
             <div class="modal-footer hidden">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -138,7 +141,49 @@
 </div>
 
 
-<div id="modalMessagesHolder"></div>
+<!-- payment modal -->
+<div  id="paymentModal" class="modal fade" role="dialog" aria-labelledby="paymentModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Title</h4>
+            </div>
+            <div class="modal-body text-center">
+
+                <div class="alertContainer text-left"></div>
+
+                <form id="payment-form">
+                    <section>
+
+                        <div class="btn-group btn-group-lg" id="amountButtons" data-toggle="buttons">
+                            <label class="btn btn-info active">
+                                <input type="radio" class="toggle" name="amount" value="1" autocomplete="off" checked> $1 for 1 Step
+                            </label>
+                            <label class="btn btn-info">
+                                <input type="radio" class="toggle" name="amount" value="2" autocomplete="off"> $2 for 2 Steps
+                            </label>
+                            <label class="btn btn-info">
+                                <input type="radio" class="toggle" name="amount" value="5" autocomplete="off"> $5 for 5 Steps
+                            </label>
+                        </div>
+
+                        <div class="bt-drop-in-wrapper">
+                            <div id="bt-dropin"></div>
+                        </div>
+                    </section>
+                    <input type="hidden" id="amount" value="" />
+                    <input type="hidden" id="nonce" name="payment_method_nonce" />
+                    <button class="button" type="submit"><span>Test Transaction</span></button>
+                </form>
+            </div>
+            <div class="modal-footer hidden">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <!-- jQuery -->
@@ -151,37 +196,10 @@
 <script src="https://js.braintreegateway.com/web/dropin/1.13.0/js/dropin.min.js"></script>
 
 
-<!-- Theme JavaScript -->
+<!-- JavaScript -->
 <script src="../static/js/freelancer.js" th:src="@{/js/freelancer.js}"></script>
-
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    var form = document.querySelector('#payment-form');
-    var client_token = [[${clientToken}]];
-    braintree.dropin.create({
-        authorization: client_token,
-        container: '#bt-dropin',
-        paypal: {
-            flow: 'vault'
-        }
-    }, function (createErr, instance) {
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            instance.requestPaymentMethod(function (err, payload) {
-                if (err) {
-                    console.log('Error', err);
-                    return;
-                }
-                // Add the nonce to the form and submit
-                document.querySelector('#nonce').value = payload.nonce;
-                form.submit();
-            });
-        });
-    });
-    /*]]>*/
-</script>
+<script src="../static/js/payment.js" th:src="@{/js/payment.js}"></script>
 
 
 </body>
-
 </html>

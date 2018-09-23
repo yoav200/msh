@@ -4,8 +4,7 @@
     console.log("Payment Ready");
 
     $('.openPaymentModal').click(function (event) {
-        console.log("openPaymentModal click");
-        event.preventDefault(); // To prevent following the link (optional)
+        console.log("openPaymentModal click"); 
 
         $.get("/checkout/", function (data, status) {
             console.log("Data: " + data + "\nStatus: " + status);
@@ -15,11 +14,9 @@
                 'Let\'s buy a Step!';
 
             $("#paymentModal .modal-title").html(title);
-
-
             $("#paymentModal").modal("show");
 
-            var form = document.querySelector('#payment-form');
+            
             // braintree integration
             braintree.dropin.create({
                 authorization: data.paymentToken,
@@ -28,39 +25,60 @@
                     flow: 'vault'
                 }
             }, function (createErr, instance) {
-
-                form.addEventListener('submit', function (event) {
+            	
+            	$("#payment-form").submit(function(event) {
+                	/* stop form from submitting normally */
                     event.preventDefault();
-
+                    
                     instance.requestPaymentMethod(function (err, payload) {
                         if (err) {
                             console.log('Error', err);
-
-                            var alertElement = '<div class="alert alert-warning alert-dismissible" role="alert">\n' +
-                                                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n' +
-                                                    '<strong>Error!</strong> <span>' + err + '</span> ' +
-                                                '</div>';
-
-                            $("#paymentModal .alertContainer").html(alertElement);
+                            addAlert(err);
                             return;
                         }
-                        // Add the nonce to the form and submit
-                        document.querySelector('#amount').value = getAmount();
-                        document.querySelector('#nonce').value = payload.nonce;
-                        //form.submit();
-                        alert("Submit payment");
+                        $.ajax({
+                            type: "POST",
+                            url: "/checkout/",
+                            data: { amount: getAmount(), payment_method_nonce: payload.nonce },
+                            beforeSend: function(xhr) {
+                            	var token = $("meta[name='_csrf']").attr("content");
+                            	var header = $("meta[name='_csrf_header']").attr("content");
+                                xhr.setRequestHeader(header, token);
+                                $("#payment-form :submit").prop('disabled', true);
+                            },
+                            success: function(data, textStatus, jqXHR) {
+                            	console.log("success", status);
+                            	if(data.status==='FAIL') {
+                            		addAlert(data.errors[0]);
+                            	}
+                            },
+                            error: function(request, status, error) {
+                            	console.log("error", status);
+                            },
+                            complete: function() {
+                            	$("#payment-form :submit").removeAttr('disabled');
+                            }
+                        });
                     });
                 });
-
             });
         });
-
     });
 
+    
+    function addAlert(message) {
+    	 var alertElement = '<div class="alert alert-warning alert-dismissible" role="alert">\n' +
+         	'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n' +
+         	'<strong>Error!</strong> <span>' + message + '</span> ' +
+         '</div>';
+    	 $("#paymentModal .alertContainer").html(alertElement);
+    }
+    
     function getAmount() {
         return  $('#amountButtons input:radio:checked').val();
     }
 
+    
 })(jQuery); // End of use strict
 
 

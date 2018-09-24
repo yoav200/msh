@@ -1,5 +1,6 @@
 package com.choyo.msh.account;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -63,6 +64,8 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private final LocalDateTime joinDate = LocalDateTime.now();
+    
     private String password;
 
     @Column(unique = true)

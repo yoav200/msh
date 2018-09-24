@@ -13,6 +13,14 @@
                 '<img  src="' + data.account.profileImageUrl + '" class="img-circle" style="max-height: 40px;" /> ' +
                 'Let\'s buy a Step!';
 
+            $.each(data.products, function(i, product) {
+            	  var productElm = '<label class="btn btn-info active">'
+            	  						+ '<input type="radio" class="toggle" name="productCode" value="'+product.code+'" autocomplete="off" checked>'
+            	  						+ product.description +
+            	  					'</label>'
+            	  $("#amountButtons").append(productElm);
+            });
+            
             $("#paymentModal .modal-title").html(title);
             $("#paymentModal").modal("show");
 
@@ -33,13 +41,13 @@
                     instance.requestPaymentMethod(function (err, payload) {
                         if (err) {
                             console.log('Error', err);
-                            addAlert(err);
+                            showMessage('warning', err);
                             return;
                         }
                         $.ajax({
                             type: "POST",
                             url: "/checkout/",
-                            data: { amount: getAmount(), payment_method_nonce: payload.nonce },
+                            data: { code: getSelectedCode(), payment_method_nonce: payload.nonce },
                             beforeSend: function(xhr) {
                             	var token = $("meta[name='_csrf']").attr("content");
                             	var header = $("meta[name='_csrf_header']").attr("content");
@@ -48,8 +56,12 @@
                             },
                             success: function(data, textStatus, jqXHR) {
                             	console.log("success", status);
-                            	if(data.status==='FAIL') {
-                            		addAlert(data.errors[0]);
+                            	if(!data.isSuccess) {
+                            		showMessage('warning', data.errors);
+                            	} else {
+                            		showMessage('success', 'Great you are now the prode owner of a new Step!'
+                            				+ '<br>Your transaction id is ' + data.transactionId 
+                            				+ '<br>You can see it under your payments!');
                             	}
                             },
                             error: function(request, status, error) {
@@ -66,15 +78,23 @@
     });
 
     
-    function addAlert(message) {
-    	 var alertElement = '<div class="alert alert-warning alert-dismissible" role="alert">\n' +
+    function showMessage(sevirity, message) {
+    	var msg;
+    	if($.isArray( message )) {
+    		msg = blkstr.join("<br>")
+    	} else {
+    		msg = message;
+    	}
+    	
+    	 var alertElement = '<div class="alert alert-' + sevirity + ' alert-dismissible" role="alert">\n' +
          	'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>\n' +
          	'<strong>Error!</strong> <span>' + message + '</span> ' +
          '</div>';
+    	 
     	 $("#paymentModal .alertContainer").html(alertElement);
     }
     
-    function getAmount() {
+    function getSelectedCode() {
         return  $('#amountButtons input:radio:checked').val();
     }
 

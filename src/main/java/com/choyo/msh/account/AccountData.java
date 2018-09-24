@@ -3,8 +3,6 @@ package com.choyo.msh.account;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.persistence.*;
-
 @Data
 @Builder
 public class AccountData {

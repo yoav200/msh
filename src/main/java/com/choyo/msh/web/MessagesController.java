@@ -25,23 +25,6 @@ public class MessagesController {
         this.messagesManager = messagesManager;
     }
 
-//    @GetMapping("/messages")
-//    public String getMessages(HttpServletRequest request, Model model) {
-//        boolean someAuthority = request.isUserInRole(Account.Role.USER.getAuthority());
-//        Principal principal = request.getUserPrincipal();
-//        AccountBean accountBean = new AccountBean();
-//        if (someAuthority && StringUtils.isNotBlank(principal.getName())) {
-//            accountBean = new AccountBean(accountService.findAccountByEmail(principal.getName()));
-//        }
-//
-//        MessagesManager.AccountMessages messages = MessagesManager.AccountMessages.builder()
-//                .account(accountBean)
-//                .messages(messagesManager.getAllMessage()).build();
-//
-//        model.addAttribute("messages", messages);
-//        return "fragments/messages :: messageContent";
-//    }
-
     @GetMapping("/messages/")
     public MessagesManager.AccountMessages getMessages2(HttpServletRequest request) {
         boolean someAuthority = request.isUserInRole(Account.Role.USER.getAuthority());

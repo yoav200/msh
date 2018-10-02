@@ -6,22 +6,14 @@
     $('.openPaymentModal').click(function (event) {
         console.log("openPaymentModal click"); 
 
+        var productCode = $(this).data('product-code');
+        
+        $("#payment-form input[name=productCode]").val(productCode);
+        
+        
         $.get("/checkout/", function (data, status) {
             console.log("Data: " + data + "\nStatus: " + status);
 
-            var title = 'Hi, <span>' + data.account.displayName + '</span>' +
-                '<img  src="' + data.account.profileImageUrl + '" class="img-circle" style="max-height: 40px;" /> ' +
-                'Let\'s buy a Step!';
-
-            $.each(data.products, function(i, product) {
-            	  var productElm = '<label class="btn btn-info active">'
-            	  						+ '<input type="radio" class="toggle" name="productCode" value="'+product.code+'" autocomplete="off" checked>'
-            	  						+ product.description +
-            	  					'</label>'
-            	  $("#amountButtons").append(productElm);
-            });
-            
-            $("#paymentModal .modal-title").html(title);
             $("#paymentModal").modal("show");
 
             

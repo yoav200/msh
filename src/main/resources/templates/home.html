@@ -16,11 +16,15 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="../static/vendor/bootstrap/css/bootstrap.min.css"
-          th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+        th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <!-- Theme CSS -->
     <link href="../static/css/freelancer.css"
           th:href="@{/css/freelancer.css}" rel="stylesheet">
-    <!-- Custom Fonts -->
+          
+    <link href="../static/css/buttonsr.css"
+          th:href="@{/css/buttons.css}" rel="stylesheet">
+          
+    <!-- Font Awesome's Free CDN -->
     <link href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" rel="stylesheet"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
@@ -52,7 +56,7 @@
                 <li class="hidden">
                     <a href="#page-top"></a>
                 </li>
-                <li class="page-scroll">
+                <li class="hidden page-scroll">
                     <a href="#about">About</a>
                 </li>
                 <li class="page-scroll">
@@ -64,7 +68,7 @@
 </nav>
 
 <!-- About Section -->
-<header class="success" id="about">
+<header class="success hidden" id="about">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
@@ -104,8 +108,13 @@
 
 <!-- Road Home section -->
 <section id="road-home" class="road-home">
-    <canvas></canvas>
+
+	<div th:replace="fragments/buttons :: game-buttons"></div>
+
+    <canvas id="gameCanvas"></canvas>
+    
 </section>
+
 
 <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
 <div id="scroll-to-top" class="scroll-top page-scroll hidden">
@@ -154,21 +163,8 @@
                 <div class="alertContainer text-left"></div>
 
                 <form id="payment-form" action="/checkout/" method="post">
+                	<input type="text" name="productCode" value=""/>
                     <section>
-                        <div class="btn-group btn-group-lg" id="amountButtons" data-toggle="buttons">
-                        	<!-- 
-                            <label class="btn btn-info active">
-                                <input type="radio" class="toggle" name="amount" value="1step" autocomplete="off" checked> $1 for 1 Step
-                            </label>
-                            <label class="btn btn-info">
-                                <input type="radio" class="toggle" name="amount" value="2step" autocomplete="off"> $2 for 2 Steps
-                            </label>
-                            <label class="btn btn-info">
-                                <input type="radio" class="toggle" name="amount" value="5step" autocomplete="off"> $5 for 5 Steps
-                            </label>
-                             -->
-                        </div>
-
                         <div class="bt-drop-in-wrapper">
                             <div id="bt-dropin"></div>
                         </div>
@@ -199,6 +195,7 @@
 <!-- JavaScript -->
 <script src="../static/js/freelancer.js" th:src="@{/js/freelancer.js}"></script>
 <script src="../static/js/payment.js" th:src="@{/js/payment.js}"></script>
+<script src="../static/js/game.js" th:src="@{/js/game.js}"></script>
 
 
 </body>

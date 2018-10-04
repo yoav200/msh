@@ -1,10 +1,12 @@
 .zoom {
 	position: fixed;
-	top: 120px;
+	top: 50px;
 	left: 170px;
 	height: 70px;
+	border: 0px solid black;
 }
 
+/*
 .zoom-fab {
 	display: inline-block;
 	width: 40px;
@@ -22,6 +24,7 @@
 	color: #FFF;
 	font-size: 20px;
 }
+*/
 
 .zoom-fab:hover {
 	opacity: 0.7;
@@ -31,13 +34,58 @@
 }
 
 .zoom-btn-large {
+	position: absolute;
 	width: 60px;
 	height: 60px;
 	line-height: 60px;
 	margin: 0 0 20px 0;
 	display: block;
+	border-radius: 50%;
+	background-color: #009688;
+	vertical-align: middle;
+	text-decoration: none;
+	text-align: center;
+	transition: 0.2s ease-out;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0
+		rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	color: #FFF;
+	font-size: 20px;
 }
 
+.zoom-btn {
+	display: inline-block;
+	height: 40px;
+	line-height: 40px;
+	background-color: #009688;
+	vertical-align: middle;
+	text-decoration: none;
+	text-align: center;
+	transition: 0.2s ease-out;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0
+		rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	color: #FFF;
+	font-size: 20px;
+	
+}
+.zoom-btn-sm {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	border-radius: 50%;
+	background-color: #009688;
+	vertical-align: middle;
+	text-decoration: none;
+	text-align: center;
+	transition: 0.2s ease-out;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0
+		rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	color: #FFF;
+	font-size: 20px;
+}
 
 /* Login buttons */
 .zoom-btn-facebook {
@@ -60,11 +108,11 @@
 	color: white;
 }
 
-
 .zoom-menu {
-	position: absolute;
+	position: relative;
 	right: auto;
 	left: 75px;
+	top: 33px;
 	transform: translateY(-50%);
 	height: 65px;
 	width: 500px;
@@ -80,21 +128,16 @@
 }
 
 .zoom-login {
-	top: 33px;
+	
 }
 
-
 .zoom-payment {
-	top: 113px;
 }
 
 .zoom-my-steps {
-	top: 190px;
-	line-height: 30px;
 }
 
 .zoom-navigation {
-	top: 275px;
 }
 
 

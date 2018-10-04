@@ -75,23 +75,24 @@
 	// action buttons
 	$('.zoom-btn-large.nav-btn-login').click(function() {
 		console.log("click on login btn")
-		$('.zoom-login').find('.zoom-btn-sm').toggleClass('scale-out');
+		$('.zoom-login').find('.zoom-btn-sm, .zoom-btn').toggleClass('scale-out');
 	});
 
 	$('.zoom-btn-large.nav-btn-payment').click(function() {
 		console.log("click on payment btn")
-		$('.zoom-payment').find('.zoom-btn-sm').toggleClass('scale-out');
+		$('.zoom-payment').find('.zoom-btn-sm, .zoom-btn').toggleClass('scale-out');
 	});
 	
 	$('.zoom-btn-large.nav-btn-my-steps').click(function() {
 		console.log("click on payment btn")
-		$('.zoom-my-steps').find('.zoom-btn-sm').toggleClass('scale-out');
+		$('.zoom-my-steps').find('.zoom-btn-sm, .zoom-btn').toggleClass('scale-out');
 	});
 	
 	$('.zoom-btn-large.nav-btn-nav').click(function() {
 		console.log("click on payment btn")
-		$('.zoom-navigation').find('.zoom-btn-sm').toggleClass('scale-out');
+		$('.zoom-navigation').find('.zoom-btn-sm, .zoom-btn').toggleClass('scale-out');
 	});
+	
 	
 
 })(jQuery); // End of use strict

@@ -9,9 +9,9 @@
 		
 			<div th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
                 <div th:case="${false}">
-                    <a class="zoom-fab zoom-btn-large nav-btn-login">
-                    	<i class="fa fa-user"></i>
-                    </a>
+	                   <a class="zoom-fab zoom-btn-large nav-btn-login">
+	                   	<i class="fa fa-user"></i>
+	                   </a>
 					<ul class="zoom-menu zoom-login">
 						<li><a href="/socialauth?id=facebook" class="zoom-fab zoom-btn-sm zoom-btn-facebook scale-transition scale-out"><i class="fab fa-facebook"></i></a></li>
 						<li><a href="/socialauth?id=twitter" class="zoom-fab zoom-btn-sm zoom-btn-twitter scale-transition scale-out"><i class="fab fa-twitter"></i></a></li>
@@ -41,28 +41,28 @@
 							</li>
 	    				</ul>
 	                </div>
-                <div th:case="*">Should never happen, but who knows...</div>
-            </div>
-		</div>
+                	<div th:case="*">Should never happen, but who knows...</div>
+            	</div>
+			</div>
 		
-		<div>
-			<a class="zoom-fab zoom-btn-large nav-btn-my-steps ">
-				<i class="fas fa-shoe-prints"></i>
-			</a>
-			<ul class="zoom-menu zoom-my-steps">
-				<li class="zoom-btn-sm scale-transition scale-out">No Steps for You</li>
-			</ul>
-			
-			<a class="zoom-fab zoom-btn-large nav-btn-nav ">
-				<i class="fas fa-crosshairs"></i>
-			</a>
-			<ul class="zoom-menu zoom-navigation">
-				<li><a href="#" class="zoom-fab zoom-btn-sm  scale-transition scale-out"><i class="fas fa-map-marker-alt"></i></a></li>
-				<li><a href="#" class="zoom-fab zoom-btn-sm  scale-transition scale-out"><i class="fas fa-home"></i></a></li>
-			</ul>
-		</div>
+			<div>
+				<a class="zoom-fab zoom-btn-large nav-btn-my-steps ">
+					<i class="fas fa-shoe-prints"></i>
+				</a>
+				<ul class="zoom-menu zoom-my-steps">
+					<li><a href="#" class="zoom-fab zoom-btn scale-transition scale-out">No Steps for You</a></li>
+				</ul>
+				
+				<a class="zoom-fab zoom-btn-large nav-btn-nav ">
+					<i class="fas fa-crosshairs"></i>
+				</a>
+				<ul class="zoom-menu zoom-navigation">
+					<li><a href="#" class="zoom-fab zoom-btn-sm  scale-transition scale-out"><i class="fas fa-map-marker-alt"></i></a></li>
+					<li><a href="#" class="zoom-fab zoom-btn-sm  scale-transition scale-out"><i class="fas fa-home"></i></a></li>
+				</ul>
+			</div>
 		
+		</div>
 	</div>
-
 </body>
 </html>

@@ -38,26 +38,20 @@
 
 <body id="page-top" class="index">
 
-<!-- Navigation -->
+<!-- Navigation
 <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
     <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
             </button>
             <a class="navbar-brand" href="#page-top">Million Steps Home</a>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li class="hidden">
                     <a href="#page-top"></a>
-                </li>
-                <li class="hidden page-scroll">
-                    <a href="#about">About</a>
                 </li>
                 <li class="page-scroll">
                     <a href="#road-home">Road Home</a>
@@ -66,52 +60,21 @@
         </div>
     </div>
 </nav>
-
-<!-- About Section -->
-<header class="success hidden" id="about">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <h2>About</h2>
-                <hr class="star-light">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 col-lg-offset-2">
-                <p>Freelancer is a free bootstrap theme created by Start Bootstrap. The download includes the complete
-                    source files including HTML, CSS, and JavaScript as well as optional LESS stylesheets for easy
-                    customization.</p>
-            </div>
-            <div class="col-lg-4">
-                <p>Whether you're a student looking to showcase your work, a professional looking to attract clients, or
-                    a graphic artist looking to share your projects, this template is the perfect starting point!</p>
-            </div>
-
-            <div th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
-                <div th:case="${false}" class="col-lg-8 col-lg-offset-2 text-center">
-                    <a href="#" class="btn btn-lg btn-outline" data-toggle="modal" data-target="#signInModal">
-                        <i class="fas fa-laugh"></i> Join the quest!
-                    </a>
-                </div>
-
-                <div th:case="${true}" class="col-lg-8 col-lg-offset-2 text-center">
-                    <a href="#" class="btn btn-lg btn-outline openPaymentModal">
-                        <i class="far fa-money-bill-alt"></i> Buy the next step
-                    </a>
-                </div>
-                <div th:case="*">Should never happen, but who knows...</div>
-            </div>
-
-        </div>
-    </div>
-</header>
-
+ -->
+ 
 <!-- Road Home section -->
-<section id="road-home" class="road-home">
+<section id="road-home">
 
-	<div th:replace="fragments/buttons :: game-buttons"></div>
-
-    <canvas id="gameCanvas"></canvas>
+	
+    <div id="gameCanvas">
+    
+    	<div th:replace="fragments/buttons :: game-buttons"></div>
+    	
+    	<div id="roadContainer">
+    		
+    	</div>
+    	
+    </div>
     
 </section>
 

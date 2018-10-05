@@ -11,10 +11,11 @@
 		container : $("#roadContainer"),
 		maxSteps : 200,
 		steps : 20,
-		stepWidth : 12,
-		stepHeight : 10,
+		stepWidth : 20,
+		stepHeight : 12,
 		marginX : 3,
-		marginY : 3
+		marginY : 3,
+		decline : 8
 	}
 
 	var containerWidth = $(config.container).width();
@@ -80,9 +81,8 @@
 	}
 	
 	function calculateDecline() {
-		var declineBy = 5;
 		var stepsInLine = containerWidth / (config.stepWidth + config.marginX);
-		return declineBy / stepsInLine;
+		return config.decline / stepsInLine;
 	}
 	
 	function drawSinglePart() {

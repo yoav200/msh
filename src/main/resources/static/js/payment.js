@@ -6,9 +6,9 @@
     $('.openPaymentModal').click(function (event) {
         console.log("openPaymentModal click"); 
 
-        var productCode = $(this).data('product-code');
+        var code = $(this).data('product-code');
         
-        $("#payment-form input[name=productCode]").val(productCode);
+        $("#payment-form input[name=code]").val(code);
         
         
         $.get("/checkout/", function (data, status) {
@@ -39,7 +39,7 @@
                         $.ajax({
                             type: "POST",
                             url: "/checkout/",
-                            data: { code: getSelectedCode(), payment_method_nonce: payload.nonce },
+                            data: { code: code, payment_method_nonce: payload.nonce },
                             beforeSend: function(xhr) {
                             	var token = $("meta[name='_csrf']").attr("content");
                             	var header = $("meta[name='_csrf_header']").attr("content");
@@ -86,9 +86,6 @@
     	 $("#paymentModal .alertContainer").html(alertElement);
     }
     
-    function getSelectedCode() {
-        return  $('#amountButtons input:radio:checked').val();
-    }
 
     
 })(jQuery); // End of use strict

@@ -1,45 +1,47 @@
-.zoom {
-	position: fixed;
-	top: 50px;
-	left: 170px;
-	height: 70px;
-	border: 0px solid black;
+/* override css */
+.panel {
+	background-color: transparent;
+	border: 0;
 }
 
-/*
-.zoom-fab {
-	display: inline-block;
-	width: 40px;
-	height: 40px;
-	line-height: 40px;
-	border-radius: 50%;
-	background-color: #009688;
-	vertical-align: middle;
-	text-decoration: none;
-	text-align: center;
-	transition: 0.2s ease-out;
-	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0
-		rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-	cursor: pointer;
-	color: #FFF;
-	font-size: 20px;
-}
-*/
-
-.zoom-fab:hover {
-	opacity: 0.7;
-	text-decoration: none;
-	box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0
-		rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+.panel-default>.panel-heading {
+	color: white;
+	background-color: transparent;
 }
 
-.zoom-btn-large {
-	position: absolute;
+.panel-heading {
+	padding: 0;
+}
+
+.panel-group .panel-heading+.panel-collapse>.list-group, .panel-group .panel-heading+.panel-collapse>.panel-body
+	{
+	border: 0;
+}
+
+.panel-body {
+	padding: 0px 2px 0px 0px;
+}
+
+.panel-body ul {
+	margin: 0 0 0 20px;
+	padding: 0;
+	list-style: none;
+}
+
+/* custom css */
+#actions-panel {
+	position: relative;
+	top: 20px;
+	left: 10px;
+	width: 75px;
+}
+
+.panel-btn-large {
+	display: block;
 	width: 60px;
 	height: 60px;
 	line-height: 60px;
-	margin: 0 0 20px 0;
-	display: block;
+	margin: 0 0 15px 7px;
 	border-radius: 50%;
 	background-color: #009688;
 	vertical-align: middle;
@@ -53,29 +55,14 @@
 	font-size: 20px;
 }
 
-.zoom-btn {
+.panel-btn-small {
 	display: inline-block;
-	height: 40px;
-	line-height: 40px;
-	background-color: #009688;
-	vertical-align: middle;
-	text-decoration: none;
-	text-align: center;
-	transition: 0.2s ease-out;
-	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0
-		rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-	cursor: pointer;
-	color: #FFF;
-	font-size: 20px;
-	
-}
-.zoom-btn-sm {
-	display: inline-block;
-	width: 40px;
-	height: 40px;
-	line-height: 40px;
+	width: 35px;
+	height: 35px;
+	line-height: 37px;
+	margin: 0 0 10px 0;
 	border-radius: 50%;
-	background-color: #009688;
+	background-color: blue;
 	vertical-align: middle;
 	text-decoration: none;
 	text-align: center;
@@ -87,59 +74,21 @@
 	font-size: 20px;
 }
 
-/* Login buttons */
-.zoom-btn-facebook {
+.panel-btn-small.facebook {
 	background: #3B5998;
-	color: white;
 }
 
-.zoom-btn-twitter {
+.panel-btn-small.twitter {
 	background: #55ACEE;
-	color: white;
 }
 
-.zoom-btn-google {
-	background: #dd4b39;
-	color: white;
-}
-
-.zoom-btn-instagram {
+.panel-btn-small.instagram {
 	background: #125688;
-	color: white;
 }
 
-.zoom-menu {
-	position: relative;
-	right: auto;
-	left: 75px;
-	top: 33px;
-	transform: translateY(-50%);
-	height: 65px;
-	width: 500px;
-	list-style: none;
-	text-align: left;
-	padding: 12px;
-	border: 0px solid black;
+.panel-btn-small.google {
+	background: #dd4b39;
 }
-
-.zoom-menu li {
-	display: inline-block;
-	margin-right: 10px;
-}
-
-.zoom-login {
-	
-}
-
-.zoom-payment {
-}
-
-.zoom-my-steps {
-}
-
-.zoom-navigation {
-}
-
 
 .scale-transition {
 	transition: transform 0.3s cubic-bezier(0.53, 0.01, 0.36, 1.63)

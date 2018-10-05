@@ -38,60 +38,24 @@
 
 <body id="page-top" class="index">
 
-<!-- Navigation
-<nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
-    <div class="container">
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
-            </button>
-            <a class="navbar-brand" href="#page-top">Million Steps Home</a>
-        </div>
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="hidden">
-                    <a href="#page-top"></a>
-                </li>
-                <li class="page-scroll">
-                    <a href="#road-home">Road Home</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
- -->
- 
-<!-- Road Home section -->
-<section id="road-home">
-
-	
-    <div id="gameCanvas">
-    
-    	<div th:replace="fragments/buttons :: game-buttons"></div>
-    	
-    	<div id="roadContainer">
-    		
-    	</div>
-    	
-    </div>
-    
-</section>
 
 
-<!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
-<div id="scroll-to-top" class="scroll-top page-scroll hidden">
-    <a class="btn btn-primary" href="#page-top">
-        <i class="fa fa-chevron-up"></i>
-    </a>
+<!-- Road Home  -->
+<div class="container-fluid gameCanvas">
+	<div class="row">
+		<div class="col-md-1">
+			<div th:replace="fragments/buttons :: game-buttons"></div>
+		</div>
+		<div class="col-md-10">
+			<div id="roadContainer"></div>
+		</div>
+	</div>
 </div>
 
 
 <!-- Footer -->
 <div th:replace="fragments/footer :: footer"></div>
 
-<!-- Sign In Modal -->
-<div th:replace="fragments/social-login :: social-login"></div>
 
 
 <!-- Message Modal -->
@@ -126,7 +90,7 @@
                 <div class="alertContainer text-left"></div>
 
                 <form id="payment-form" action="/checkout/" method="post">
-                	<input type="text" name="productCode" value=""/>
+                	<input type="text" name="code" value=""/>
                     <section>
                         <div class="bt-drop-in-wrapper">
                             <div id="bt-dropin"></div>

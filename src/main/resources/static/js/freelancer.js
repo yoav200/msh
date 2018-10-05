@@ -17,6 +17,11 @@
 		offset : 51
 	});
 
+	var $sidebar   = $("#actions-panel"), 
+    $window    = $(window),
+    offset     = $sidebar.offset(),
+    topPadding = 15;
+	
 	// show hide scroll to top arrow
 	$(window).scroll(function() {
 		if ($(this).scrollTop() > 100) {
@@ -24,25 +29,19 @@
 		} else {
 			$('#scroll-to-top').fadeOut();
 		}
+		
+		// for panel
+		if ($window.scrollTop() > offset.top) {
+            $sidebar.stop().animate({
+                marginTop: $window.scrollTop() - offset.top + topPadding
+            });
+        } else {
+            $sidebar.stop().animate({
+                marginTop: 0
+            });
+        }
 	});
 
-	// Closes the Responsive Menu on Menu Item Click
-	$('.navbar-collapse ul li a').click(function() {
-		$('.navbar-toggle:visible').click();
-	});
-
-	// Offset for Main Navigation
-	$('#mainNav').affix({
-		offset : {
-			top : 100
-		}
-	});
-
-	/*
-	 * $.get("/messages", function (data, status) { //console.log("Data: " +
-	 * data + "\nStatus: " + status); $("#modalMessagesHolder").html(data);
-	 * $("#messagesModal").modal("show"); });
-	 */
 
 	$.get("/messages/", function(data, status) {
 		console.log("Data: " + data + "\nStatus: " + status);
@@ -72,26 +71,6 @@
 
 	
 	
-	// action buttons
-	$('.zoom-btn-large.nav-btn-login').click(function() {
-		console.log("click on login btn")
-		$('.zoom-login').find('.zoom-btn-sm, .zoom-btn').toggleClass('scale-out');
-	});
-
-	$('.zoom-btn-large.nav-btn-payment').click(function() {
-		console.log("click on payment btn")
-		$('.zoom-payment').find('.zoom-btn-sm, .zoom-btn').toggleClass('scale-out');
-	});
-	
-	$('.zoom-btn-large.nav-btn-my-steps').click(function() {
-		console.log("click on payment btn")
-		$('.zoom-my-steps').find('.zoom-btn-sm, .zoom-btn').toggleClass('scale-out');
-	});
-	
-	$('.zoom-btn-large.nav-btn-nav').click(function() {
-		console.log("click on payment btn")
-		$('.zoom-navigation').find('.zoom-btn-sm, .zoom-btn').toggleClass('scale-out');
-	});
 	
 	
 

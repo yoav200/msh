@@ -3,66 +3,136 @@
 <head>
 </head>
 <body>
-
 	<div th:fragment="game-buttons">
-		<div class="zoom">
-		
-			<div th:switch="${#authentication} ? ${#authorization.expression('isAuthenticated()')} : ${false}">
-                <div th:case="${false}">
-	                   <a class="zoom-fab zoom-btn-large nav-btn-login">
-	                   	<i class="fa fa-user"></i>
-	                   </a>
-					<ul class="zoom-menu zoom-login">
-						<li><a href="/socialauth?id=facebook" class="zoom-fab zoom-btn-sm zoom-btn-facebook scale-transition scale-out"><i class="fab fa-facebook"></i></a></li>
-						<li><a href="/socialauth?id=twitter" class="zoom-fab zoom-btn-sm zoom-btn-twitter scale-transition scale-out"><i class="fab fa-twitter"></i></a></li>
-						<li><a href="/socialauth?id=instagram" class="zoom-fab zoom-btn-sm zoom-btn-instagram scale-transition scale-out"><i class="fab fa-instagram"></i></a></li>
-						<li><a href="/socialauth?id=googleplus" class="zoom-fab zoom-btn-sm zoom-btn-google scale-transition scale-out"><i class="fab fa-google"></i></a></li>  
-					</ul>
-                </div>
 
-                <div th:case="${true}">
-                    <a class="zoom-fab zoom-btn-large">
-                    	<img th:src="${account.profileImageUrl}" class="img-circle" style="max-height: 40px;" />
-					</a>
-                    
-                    <a class="zoom-fab zoom-btn-large nav-btn-payment">
-                    	<i class="fas fa-dollar-sign"></i>
-                    </a>
-                    
-                    <div th:if="${#lists.isEmpty(products)}">No Products Available </div>
-    				<div th:if="${not #lists.isEmpty(products)}">
-	    				<ul class="zoom-menu zoom-payment">
-	    					<li th:each="product : ${products}">
-	    						<a href="#"
-								class="zoom-fab zoom-btn-sm scale-transition scale-out openPaymentModal"
-								th:text="'$' + ${product.price}"
-								th:title="${product.description}"
-								th:attr="data-product-code=${product.code}"></a>
+
+		<div id="actions-panel" class="panel-group" role="tablist" aria-multiselectable="true">
+			<!-- login -->
+			
+			<a class="panel-btn-large" th:if="${#authorization.expression('isAuthenticated()')}">
+            	<img th:src="${account.profileImageUrl}" class="img-circle" style="max-height: 40px;" />
+			</a>
+					
+			<div class="panel panel-default" th:if="not ${#authorization.expression('isAuthenticated()')}">
+				<div class="panel-heading" role="tab" id="headingLogin">
+					<h4 class="panel-title">
+						<a role="button" 
+							class="panel-btn-large collapsed"
+							data-toggle="collapse" 
+							data-parent="#actions-panel"
+							href="#collapseLogin" 
+							aria-expanded="true"
+							aria-controls="collapseLogin">
+							<i class="fas fa-user"></i>
+						</a>
+					</h4>
+				</div>
+				<div id="collapseLogin" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingLogin">
+					<div class="panel-body">
+						<ul>
+							<li class="panel-btn-small facebook"><a href="/socialauth?id=facebook" class="">
+									<i class="fab fa-facebook"></i>
+								</a>
 							</li>
-	    				</ul>
-	                </div>
-                	<div th:case="*">Should never happen, but who knows...</div>
-            	</div>
+							<li class="panel-btn-small twitter"><a href="/socialauth?id=twitter" class="scale-transition scale-out">
+									<i class="fab fa-twitter"></i>
+								</a>
+							</li>
+							<li class="panel-btn-small instagram"><a href="/socialauth?id=instagram" class="scale-transition scale-out">
+									<i class="fab fa-instagram"></i>
+								</a>
+							</li>
+							<li class="panel-btn-small google"><a href="/socialauth?id=googleplus" class="scale-transition scale-out">
+									<i class="fab fa-google"></i>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
-		
-			<div>
-				<a class="zoom-fab zoom-btn-large nav-btn-my-steps ">
-					<i class="fas fa-shoe-prints"></i>
-				</a>
-				<ul class="zoom-menu zoom-my-steps">
-					<li><a href="#" class="zoom-fab zoom-btn scale-transition scale-out">No Steps for You</a></li>
-				</ul>
-				
-				<a class="zoom-fab zoom-btn-large nav-btn-nav ">
-					<i class="fas fa-crosshairs"></i>
-				</a>
-				<ul class="zoom-menu zoom-navigation">
-					<li><a href="#" class="zoom-fab zoom-btn-sm  scale-transition scale-out"><i class="fas fa-map-marker-alt"></i></a></li>
-					<li><a href="#" class="zoom-fab zoom-btn-sm  scale-transition scale-out"><i class="fas fa-home"></i></a></li>
-				</ul>
+
+			<!-- payment -->
+			<div class="panel panel-default" th:if="${#authorization.expression('isAuthenticated()')}">
+				<div class="panel-heading" role="tab" id="headingPayment">
+					<h4 class="panel-title">
+						<a class="panel-btn-large collapsed" 
+							role="button" 
+							data-toggle="collapse"
+							data-parent="#actions-panel" 
+							href="#collapsePayment"
+							aria-expanded="false" 
+							aria-controls="collapsePayment">
+							<i class="fas fa-dollar-sign"></i>
+						</a>
+					</h4>
+				</div>
+				<div id="collapsePayment" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingPayment">
+					<div class="panel-body">
+						<div th:if="${#lists.isEmpty(products)}">No Products Available </div>
+	    				<div th:if="${not #lists.isEmpty(products)}">
+		    				<ul>
+		    					<li th:class="panel-btn-small" th:each="product : ${products}">
+		    						<a href="#" class="scale-transition scale-out openPaymentModal"
+										th:text="'$' + ${product.price}"
+										th:title="${product.description}"
+										th:attr="data-product-code=${product.code}"></a>
+								</li>
+		    				</ul>
+		                </div>
+	                	
+					</div>
+				</div>
 			</div>
-		
+			
+			
+			<!-- steps -->
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingSteps">
+					<h4 class="panel-title">
+						<a class="panel-btn-large collapsed" 
+							role="button" 
+							data-toggle="collapse"
+							data-parent="#actions-panel" 
+							href="#collapseSteps"
+							aria-expanded="false" 
+							aria-controls="collapseSteps">
+							<i class="fas fa-shoe-prints"></i>
+						</a>
+					</h4>
+				</div>
+				<div id="collapseSteps" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSteps">
+					<div class="panel-body">
+					
+					</div>
+				</div>
+			</div>
+			
+			<!-- map navigation -->
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingNav">
+					<h4 class="panel-title">
+						<a class="panel-btn-large collapsed" 
+							role="button" 
+							data-toggle="collapse"
+							data-parent="#actions-panel" 
+							href="#collapseNav"
+							aria-expanded="false" 
+							aria-controls="collapseNav">
+							<i class="fas fa-crosshairs"></i>
+						</a>
+					</h4>
+				</div>
+				<div id="collapseNav" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingNav">
+					<div class="panel-body">
+						<ul>
+							<li class="panel-btn-small"><a href="#" class="scale-transition scale-out"><i class="fas fa-map-marker-alt"></i></a></li>
+							<li class="panel-btn-small"><a href="#" class="scale-transition scale-out"><i class="fas fa-home"></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
+
 	</div>
 </body>
 </html>

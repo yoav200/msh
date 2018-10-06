@@ -31,7 +31,7 @@
 /* custom css */
 #actions-panel {
 	position: relative;
-	top: 20px;
+	top: 0;
 	left: 10px;
 	width: 75px;
 }

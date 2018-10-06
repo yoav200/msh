@@ -17,11 +17,13 @@ spring:
     username: root
     password: root
     url: jdbc:mysql://localhost:3306/msh
+    initialization-mode: always
 
   jpa:
     show-sql: true
     hibernate.ddl-auto: create
     properties.hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
 
 msh:
   socialauth:

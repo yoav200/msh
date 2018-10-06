@@ -21,8 +21,30 @@ a, a:hover, a:focus, a:active, a.active {
 }
 
 #roadContainer {
-	margin: 30px auto;
+	margin: 20px auto;
 	position: relative;
+}
+
+#dolly {
+	position: absolute;
+	background: url("../img/dolly-3.png") no-repeat center;
+	-webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
+    
+    height: 70px;
+    width: 80px;
+    border: 0px solid black;
+}
+
+.dollyFlip {
+	-moz-transform: scaleX(-1);
+	-o-transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+	transform: scaleX(-1);
+	filter: FlipH;
+	-ms-filter: "FlipH";
 }
 
 footer {

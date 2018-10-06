@@ -3,6 +3,15 @@
 
 	console.log("Game script Ready");
 
+	// ~ private properties ===========================================================================================
+	
+	var dollyConfig = {
+		cssClass : "dolly",
+		offset	:   [-30, -65],
+		step : 43
+	}
+	
+	
 	var nextPosition = [0, 0];
 
 	var stepsCounter = 1;
@@ -20,21 +29,23 @@
 
 	var containerWidth = $(config.container).width();
 	
+	// ~ draw steps functions  ========================================================================================
+	
 	function createStep(position) {
 		//if(stepsCounter >= config.maxSteps) {
 		//	return;
 		//}
 		
-		var step = $('<div data-toggle="popover" title="Step #'+stepsCounter+' price $1" data-content="And here some amazing content. It is very engaging. Right?"/>', {
-			"id" : 'step-' + stepsCounter,
-			"class" : 'step',
-			"click" : function(e) {
-				e.preventDefault();
-				console.log(this.id)
-			}
+		var step = $('<div data-toggle="popover" title="Step #' + stepsCounter + ' price $1" data-content="And here some amazing content. It is very engaging. Right?" />', {
+			
 		}).width(config.stepWidth)
 			.height(config.stepHeight)
-			.addClass("step");
+			.attr("id",'step-' + stepsCounter)
+			.addClass("step")
+			.click(function(e) {
+				e.preventDefault();
+				console.log(this.id)
+			});
 		
 		switch(position) {
 			case 'right': setPositionToRight(step); break;
@@ -91,6 +102,7 @@
 		var done = false;
 		
 		while(!done) {
+			
 			if(direction === "right") {
 				if(nextPosition[0] + config.stepWidth < containerWidth) {
 					var step = createStep('right');
@@ -122,21 +134,71 @@
 			
 			config.container.height(nextPosition[1] + 50)
 		}
+	}
+	
+	// ~ Draw dolly functions =========================================================================================
+	
+	function drawDolly(step) {
+		var dolly = $('<div/>', {
+			"id" : 'dolly',
+			"class" : dollyConfig.cssClass,
+			"click" : function(e) {
+				e.preventDefault();
+				jumpToNextStep()
+			}
+		});
+		
+		var pos = $(step).position();
+		
+		$(dolly).css({
+	        top: pos.top + dollyConfig.offset[1],
+	        left: step.position().left + dollyConfig.offset[0]
+	    });
+		
+		config.container.append(dolly);
+	}
+	
+	function jumpToNextStep() {
+		console.log("Jumping")
+		
+		var currentStep = $("#step-" + dollyConfig.step).position();
+		dollyConfig.step++;
+		var nextStep = $("#step-" + dollyConfig.step).position();
+		
+		var moveY = ("+=" + (nextStep.top - currentStep.top));
+		var moveX = ("-=" + (currentStep.left - nextStep.left))
+		
+		$("#dolly").animate({ "left" : moveX, "top" : moveY}, "slow" );
+		
+		
+		if(nextStep.left >= currentStep.left) { // moving right
+			
+			$("#dolly").removeClass("dollyFlip")
+		} else { // moving left
+			$("#dolly").addClass("dollyFlip")
+		}
 		
 	}
 	
+	// ~ APIs =========================================================================================================
+	
 	function drawSteps() {
-		
 		for (var i = 0; i < config.steps; i++) {
 			drawSinglePart()
 		}
-		
 		
 		// add popover for steps
 		$('[data-toggle="popover"]').popover({
 			trigger : 'hover',
 			placement : 'auto top'
-		});   
+		});
+		
+		
+		setTimeout(function() {
+			var currentStep = $("#step-" + dollyConfig.step);
+		    drawDolly(currentStep);
+		}, 2000)
+				 
 	}
 	
 

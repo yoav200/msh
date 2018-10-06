@@ -24,6 +24,7 @@
 	
 	// show hide scroll to top arrow
 	$(window).scroll(function() {
+		
 		if ($(this).scrollTop() > 100) {
 			$('#scroll-to-top').removeClass("hidden").fadeIn();
 		} else {
@@ -32,13 +33,9 @@
 		
 		// for panel
 		if ($window.scrollTop() > offset.top) {
-            $sidebar.stop().animate({
-                marginTop: $window.scrollTop() - offset.top + topPadding
-            });
+            $sidebar.stop().animate({top : ($window.scrollTop() - offset.top + topPadding)});
         } else {
-            $sidebar.stop().animate({
-                marginTop: 0
-            });
+            $sidebar.stop().animate({top : 0});
         }
 	});
 

@@ -1,3 +1,13 @@
+@font-face {
+    font-family: Badaboom;
+    src: url("../fonts/badaboom_bb/BADABB__.TTF");
+}
+
+@font-face {
+    font-family: SF-Comic-Script-Shaded;
+    src: url("../fonts/sf_comic_script/SF Comic Script Shaded.ttf");
+}
+
 html {
 	position: relative;
 	min-height: 100%;
@@ -27,7 +37,7 @@ a, a:hover, a:focus, a:active, a.active {
 
 #dolly {
 	position: absolute;
-	background: url("../img/dolly-3.png") no-repeat center;
+	background: url("../img/dolly/dolly-3.png") no-repeat center;
 	-webkit-background-size: contain;
     -moz-background-size: contain;
     -o-background-size: contain;
@@ -61,12 +71,26 @@ footer {
 .step {
 	position: absolute;
 	margin: 5px 5px 0 0;
-	border-radius: 3px;
-	border: 1px solid white;
+	background: url("../img/tiles/PW00018_b.jpg") no-repeat center;
+	/*
+		PF01512_b
+	PF01514_b
+	PF01522_b
+	PF01531_b
+	PW00006_b
+		PW00018_b
+	PW00046_b
+	PW00047_b
+	*/
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0
+		rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+	transition: box-shadow 0.3s ease-in-out;
+	cursor: pointer;
 }
 
-.step:hover {
-	background-color: white;
+.step:hover,
+.step:focus {
+  box-shadow: inset 0 0 0 2em var(--hover);
 }
 
 .scroll-top {

@@ -11,7 +11,6 @@
 		step : 43
 	}
 	
-	
 	var nextPosition = [0, 0];
 
 	var stepsCounter = 1;
@@ -32,9 +31,6 @@
 	// ~ draw steps functions  ========================================================================================
 	
 	function createStep(position) {
-		//if(stepsCounter >= config.maxSteps) {
-		//	return;
-		//}
 		
 		var step = $('<div data-toggle="popover" title="Step #' + stepsCounter + ' price $1" data-content="And here some amazing content. It is very engaging. Right?" />', {
 			
@@ -47,50 +43,42 @@
 				console.log(this.id)
 			});
 		
+		$(step).css({
+	        top: nextPosition[1]  + "px",
+	        left: nextPosition[0] + "px"
+	    });
+		
+		var xpos, ypos;
+		
 		switch(position) {
-			case 'right': setPositionToRight(step); break;
-			case 'left': setPositionToLeft(step); break;
-			case 'under': setPositionUnder(step); break;
+			case 'right': 
+				xpos = ( nextPosition[0] + config.stepWidth + config.marginX);
+				ypos = nextPosition[1] + calculateDecline(); 
+				break;
+			case 'left': 
+				xpos = (nextPosition[0] - config.stepWidth - config.marginX);
+				ypos = nextPosition[1] + calculateDecline();
+				break;
+			case 'under': 
+				xpos = nextPosition[0];
+				ypos = (nextPosition[1] + config.stepHeight + config.marginY);
+				break;
 		}
+		
+		nextPosition = [xpos, ypos];
 		
 		// very important, step counter
 		stepsCounter++;
 		
+		// add popover for steps
+		$(step).popover({
+			trigger : 'hover',
+			placement : 'auto top'
+		});
+		
 		return step
 	}
 
-	
-	function setPositionToRight(step) {
-		$(step).css({
-	        top: nextPosition[1]  + "px",
-	        left: nextPosition[0] + "px"
-	    });
-		var xpos = ( nextPosition[0] + config.stepWidth + config.marginX);
-		var ypos = nextPosition[1] + calculateDecline();
-		nextPosition = [xpos, ypos];
-	}
-	
-	function setPositionToLeft(step) {
-		$(step).css({
-	        top: nextPosition[1]  + "px",
-	        left: nextPosition[0] + "px"
-	    });
-		var xpos = (nextPosition[0] - config.stepWidth - config.marginX);
-		var ypos = nextPosition[1] + calculateDecline();;
-		nextPosition = [xpos, ypos];
-	}
-	
-	function setPositionUnder(step) {
-		$(step).css({
-	        top: nextPosition[1]  + "px",
-	        left: nextPosition[0] + "px"
-	    });
-		
-		var xpos = nextPosition[0];
-		var ypos = (nextPosition[1] + config.stepHeight + config.marginY);
-		nextPosition = [xpos, ypos];
-	}
-	
 	function calculateDecline() {
 		var stepsInLine = containerWidth / (config.stepWidth + config.marginX);
 		return config.decline / stepsInLine;
@@ -113,6 +101,10 @@
 					
 					var step2 = createStep('under');
 					config.container.append(step2);
+					
+					var step3 = createStep('under');
+					config.container.append(step3);
+					
 					direction = "left";
 				}
 			}
@@ -128,12 +120,16 @@
 					var step2 = createStep('under');
 					config.container.append(step2);
 					
+					var step3 = createStep('under');
+					config.container.append(step3);
+					
 					done = true;
 				}
 			}
 			
 			config.container.height(nextPosition[1] + 50)
 		}
+		
 	}
 	
 	// ~ Draw dolly functions =========================================================================================
@@ -187,21 +183,24 @@
 			drawSinglePart()
 		}
 		
-		// add popover for steps
-		$('[data-toggle="popover"]').popover({
-			trigger : 'hover',
-			placement : 'auto top'
-		});
-		
-		
 		setTimeout(function() {
 			var currentStep = $("#step-" + dollyConfig.step);
 		    drawDolly(currentStep);
-		}, 2000)
-				 
+		}, 1000);	 
 	}
 	
-
 	drawSteps();
+	
+	
+	// show hide scroll to top arrow
+	$(window).scroll(function() {
+		
+		// infinite scroll
+		if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+			console.log("adding road");
+			drawSinglePart()
+		}
+		
+	});
 	
 })(jQuery); // End of use strict

@@ -6,7 +6,8 @@
 	// jQuery for page scrolling feature - requires jQuery Easing plugin
 	$('.page-scroll a').bind('click', function(event) {
 		var $anchor = $(this);
-		$('html, body').stop().animate({scrollTop : ($($anchor.attr('href')).offset().top - 50)
+		$('html, body').stop().animate({
+			scrollTop : ($($anchor.attr('href')).offset().top - 50)
 		}, 1250, 'easeInOutExpo');
 		event.preventDefault();
 	});
@@ -17,28 +18,33 @@
 		offset : 51
 	});
 
-	var $sidebar   = $("#actions-panel"), 
-    $window    = $(window),
-    offset     = $sidebar.offset(),
-    topPadding = 15;
-	
+	var $sidebar = $("#actions-panel"), 
+					$window = $(window), 
+					offset = $sidebar.offset(), 
+					topPadding = 15;
+
 	// show hide scroll to top arrow
 	$(window).scroll(function() {
 		
+		// back to top button
 		if ($(this).scrollTop() > 100) {
 			$('#scroll-to-top').removeClass("hidden").fadeIn();
 		} else {
 			$('#scroll-to-top').fadeOut();
 		}
-		
-		// for panel
-		if ($window.scrollTop() > offset.top) {
-            $sidebar.stop().animate({top : ($window.scrollTop() - offset.top + topPadding)});
-        } else {
-            $sidebar.stop().animate({top : 0});
-        }
-	});
 
+		// action panel stick to left
+		if ($window.scrollTop() > offset.top) {
+			$sidebar.stop().animate({
+				top : ($window.scrollTop() - offset.top + topPadding)
+			});
+		} else {
+			$sidebar.stop().animate({
+				top : 0
+			});
+		}
+		
+	});
 
 	$.get("/messages/", function(data, status) {
 		console.log("Data: " + data + "\nStatus: " + status);
@@ -65,10 +71,5 @@
 
 		$("#messagesModal").modal("show");
 	});
-
-	
-	
-	
-	
 
 })(jQuery); // End of use strict
